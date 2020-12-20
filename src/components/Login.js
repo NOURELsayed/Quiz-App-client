@@ -17,6 +17,7 @@ const LoginForm = styled(Form)`
   max-width: 350px;
   margin: auto;
   height: 400px;
+  margin-top: 125px;
   a {
     color: rgba(var(--fe0, 0, 55, 107), 1);
     font-size: 12px;
@@ -39,29 +40,6 @@ const LoginButton = styled(Button)`
   width: 250px;
   margin: 0 auto;
   display: block;
-`;
-const Line = styled.div`
-  margin: 25px 20px 25px 20px;
-  flex-direction: row;
-  // align-items: stretch;
-  // border: 0 solid #000;
-  // box-sizing: border-box;
-  // display: flex;
-  // flex-shrink: 0;
-  // margin: 0;
-  // padding: 0;
-  // position: relative;
-  // }
-`;
-const Div = styled.div`
-  // background-color: rgba(var(--b38,219,219,219),1);
-  background-color: #dbdbdb;
-  height: 1px;
-  position: relative;
-  top: 0.45em;
-`;
-const ORLine = styled.div`
-  text-tranform: uppercase;
 `;
 const FormElement = styled.div`
 `;
@@ -102,18 +80,11 @@ function login() {
             Submit
           </LoginButton>
         </FormElement>
-        {/* <Line>
-            <Div> </Div>
-                <ORLine>
-                    or
-                </ORLine>
-           <Div></Div>
-        </Line> */}
         <a>Forget Password?</a>
       </LoginForm>
       <SignupLink>
         <p>
-          Don't have an account? <a href="/accounts/signup">SignUp</a>
+          Don't have an account? <a href="/Signup">SignUp</a>
         </p>
       </SignupLink>
     </Wrapper>
