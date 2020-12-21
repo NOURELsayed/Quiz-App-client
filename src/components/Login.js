@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
 import { Container, Form, Button } from "react-bootstrap";
 import styled from "styled-components";
+import { useHistory } from "react-router-dom";
 
 const Wrapper = styled(Container)``;
 const LoginForm = styled(Form)`
@@ -41,8 +43,7 @@ const LoginButton = styled(Button)`
   margin: 0 auto;
   display: block;
 `;
-const FormElement = styled.div`
-`;
+const FormElement = styled.div``;
 const SignupLink = styled.div`
   background-color: rgba(var(--d87, 255, 255, 255), 1);
   border: 1px solid #dbdbdb;
@@ -62,18 +63,73 @@ const SignupLink = styled.div`
     }
   }
 `;
-function login() {
+
+function Login() {
+  let history = useHistory();
+
+  const [userInfo, setUserInfo] = useState(0);
+
+  const handleChange = (e) => {
+    e.preventDefault();
+    switch (e.target.id) {
+      case "username":
+        setUserInfo({
+          ...userInfo,
+          username: e.target.value,
+        });
+        break;
+      case "password":
+        setUserInfo({
+          ...userInfo,
+          password: e.target.value,
+        });
+        break;
+      default:
+    }
+  };
+  // console.log("userInfodeforesubmit",userInfo)
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const user = userInfo;
+    try {
+      const response = await axios.post("http://localhost:3000/Login", user);
+      // eslint-disable-next-line no-unused-vars
+      console.log(response.data);
+      setUserInfo({ response });
+      if (userInfo.length !== 0) {
+        history.push("/Home")      }
+    } catch (error) {
+      console.log(error.response.data);
+      alert(error.response.data);
+      alert('Authentication failed')
+    }
+  };
   return (
     <Wrapper>
-      <LoginForm>
+      {/* <div>{error.response.data}</div> */}
+      <LoginForm onSubmit={handleSubmit}>
         <h1> Quiz App </h1>
         <FormElement>
-          <Form.Group controlId="formBasicEmail">
-            <Input type="email" placeholder="Enter email" />
+          <Form.Group controlId="username">
+            <Input
+              type="username"
+              placeholder="Enter username"
+              value={userInfo.username}
+              onChange={handleChange}
+              required
+            />
           </Form.Group>
 
-          <Form.Group controlId="formBasicPassword">
-            <Input type="password" placeholder="Password" />
+          <Form.Group controlId="password">
+            <Input
+              type="password"
+              placeholder="Password"
+              value={userInfo.password}
+              onChange={handleChange}
+              required
+            />
           </Form.Group>
 
           <LoginButton variant="primary" type="submit">
@@ -91,4 +147,4 @@ function login() {
   );
 }
 
-export default login;
+export default Login;

@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { Container, Form, Button } from "react-bootstrap";
 import styled from "styled-components";
+import { useHistory } from "react-router-dom";
 
 
 const Wrapper = styled(Container)``;
-const LoginForm = styled(Form)`
+const SignupForm = styled(Form)`
   h1 {
     margin: 22px auto 20px;
     text-align: center;
@@ -34,7 +36,7 @@ const Input = styled(Form.Control)`
   border: 0;
   border: 1px solid rgba(var(--ca6, 219, 219, 219), 1);
 `;
-const LoginButton = styled(Button)`
+const SignupButton = styled(Button)`
   margin-bottom: 8px;
   border: 1px solid transparent;
   width: 250px;
@@ -43,7 +45,7 @@ const LoginButton = styled(Button)`
 `;
 
 const FormElement = styled.div``;
-const LoginLink = styled.div`
+const SignupLink = styled.div`
   background-color: rgba(var(--d87, 255, 255, 255), 1);
   border: 1px solid #dbdbdb;
   border: 1px solid rgba(var(--b6a, 219, 219, 219), 1);
@@ -63,7 +65,8 @@ const LoginLink = styled.div`
   }
 `;
 function Signup() {
-//   const router = useRouter();
+  let history = useHistory();
+
   const [userInfo, setUserInfo] = useState(0);
 //   seState({
 //     firstName: "nour",
@@ -103,15 +106,26 @@ function Signup() {
     }
     
   };
+console.log("userInfo",userInfo)
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   Signup(userInfo);
+  // };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    Signup(userInfo);
-  };
+  const handleSubmit = event => {
+    event.preventDefault();
 
+    const user = userInfo
+    axios.post(`http://localhost:3000/register`,user )
+      .then(res => {
+        console.log("ressssssssssssss",res);
+        setUserInfo({res})
+      })
+      history.push("/");
+  }
   return (
     <Wrapper>
-      <LoginForm onSubmit={handleSubmit}>
+      <SignupForm onSubmit={handleSubmit}>
         <h1> Pocket Post </h1>
         {/* <FormElement> */}
         <Form.Group controlId="firstName">
@@ -148,17 +162,16 @@ function Signup() {
           />
         </Form.Group>
 
-        <LoginButton variant="primary" type="submit">
+        <SignupButton variant="primary" type="submit">
           Submit
-        </LoginButton>
-        {/* </FormElement> */}
+        </SignupButton>
         <a>Forget Password?</a>
-      </LoginForm>
-      <LoginLink>
+      </SignupForm>
+      <SignupLink>
         <p>
           Have an account? <a href="/">Login</a>
         </p>
-      </LoginLink>
+      </SignupLink>
     </Wrapper>
   );
 };

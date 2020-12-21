@@ -1,8 +1,7 @@
 
-import "bootstrap/dist/css/bootstrap.min.css";
 import { connect } from "react-redux";
 import React, { useState, useEffect } from 'react';
-// import updateQuestion from "./actions/updateQuestion";
+import fetcheQuestion from "../actions/updateQuestion";
 import {Container } from "react-bootstrap";
 import NavbarComponent from "./Navbar";
 import styled from "styled-components";
@@ -39,6 +38,7 @@ function Home(props) {
 
   const handleSumbit=(answer,id)=>{
     //setAnswer({...Answer,Answers: answer})
+    debugger
     const isAnswered = Answers.some((answer) => answer.questionId === id);
     if(isAnswered){
       const filterdAnswers = Answers.filter((answer) => answer.questionId !== id);
@@ -51,15 +51,20 @@ function Home(props) {
   const getCorrectAnswers = () => {
     const correctAnswers = Answers.filter((answer) => {
       const questionRow = props.Questions.find(question => question.id === answer.questionId);
+
+
       if(questionRow.answers.indexOf(answer.answer) === questionRow.rightAnswer) return true;
       return false;
     });
+    console.log("correctAnswers",correctAnswers)
     return correctAnswers;
   }
 
   const getScore = () => {
     const correctAnswersNum =  getCorrectAnswers().length;
+    console.log("getScore",correctAnswersNum)
     const score = correctAnswersNum * rightAnswerGrade;
+    console.log("getScore",score)
 
     return score;
   };
@@ -68,10 +73,13 @@ function Home(props) {
   useEffect(() => {
     const newScore = getScore();
     setScore(newScore);
+    console.log("state score",score)
   }, [Answers]);
   // console.log(props.question);
   return (
     <Wrapper className="App">
+    {/* <button onClick={props.fetcheQuestion}>Next Question</button> */}
+
       <h1>{score}</h1>
       <NavbarComponent />
       {props.Questions.map((Question) => (
@@ -82,14 +90,12 @@ function Home(props) {
           ))}
         </div>
       ))}
-      {/* <button onClick={props.updateQuestion}>Next Question</button> */}
-      {/* <Login/> */}
     </Wrapper>
   );
 }
 
 const MapStateToProp = (state) => {
-  console.log(state);
+  console.log("MapStateToProp state",state);
   const Questions = state.questions;
   return {
     Questions: Questions,
@@ -98,7 +104,7 @@ const MapStateToProp = (state) => {
 
 // const MapDispatchTOProps = (dispatch) => {
 //   return{
-//     updateQuestion: ()=> dispatch(updateQuestion)
+//     ADD_FETCHED_DATA : ()=> dispatch(fetcheQuestion)
 //   }
 // }
 export default connect(MapStateToProp)(Home);
