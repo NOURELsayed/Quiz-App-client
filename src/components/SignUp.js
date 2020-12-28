@@ -106,19 +106,12 @@ function Signup() {
     }
     
   };
-console.log("userInfo",userInfo)
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   Signup(userInfo);
-  // };
-
   const handleSubmit = event => {
     event.preventDefault();
 
     const user = userInfo
     axios.post(`http://localhost:3000/register`,user )
       .then(res => {
-        console.log("ressssssssssssss",res);
         setUserInfo({res})
       })
       history.push("/");

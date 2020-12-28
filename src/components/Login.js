@@ -87,25 +87,20 @@ function Login() {
       default:
     }
   };
-  // console.log("userInfodeforesubmit",userInfo)
-
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     const user = userInfo;
     try {
       const response = await axios.post("http://localhost:3000/Login", user);
-      // eslint-disable-next-line no-unused-vars
-      console.log(response.data);
-      setUserInfo({ response });
-      if (userInfo.length !== 0) {
-        history.push("/Home")      }
+      if (response.data.toLowerCase() === "ok") {
+        history.push("/Home");
+      }else{
+        alert(response.data)
+      }
     } catch (error) {
-      console.log(error.response.data);
-      alert(error.response.data);
-      alert('Authentication failed')
     }
   };
+
   return (
     <Wrapper>
       {/* <div>{error.response.data}</div> */}
@@ -136,7 +131,7 @@ function Login() {
             Submit
           </LoginButton>
         </FormElement>
-        <a>Forget Password?</a>
+        <a href="#">Forget Password?</a>
       </LoginForm>
       <SignupLink>
         <p>

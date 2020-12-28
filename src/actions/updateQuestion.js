@@ -13,12 +13,10 @@ import {ADD_FETCHED_DATA } from './actionstype'
 
 const apiUrl = 'http://localhost:3000/Questions';
 export const fetcheQuestion = () => {
-    console.log("questionaction")
 
     return (dispatch) => {
         return axios.get(apiUrl)
             .then(response => {
-                console.log("ressss",response.data)
                 return response.data
             })
             .then(data => {
